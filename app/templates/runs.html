@@ -1,5 +1,21 @@
 <div class="work-grid"><section class="panel"><h3>批次快照</h3>
-{% for run in ledger %}<p><a href="{{ url_for('track_web.screen',section='issue',run=run.run_id,sample=label) }}"><code>{{ run.run_id[:16] }}</code></a> · {{ run.summary.mapped_mm }} mm <small>{{ run.created_at }}</small></p>{% else %}<p>等待首次归档。</p>{% endfor %}
+{% for run in ledger %}<p><a href="{{ url_for('track_web.screen',section='runs',run=run.run_id,sample=label) }}"><code>{{ run.run_id[:16] }}</code></a> · 覆盖 {{ run.summary.mapped_mm }} mm · 可销 {{ run.summary.get('closed_mm', 0) }} mm{% if run.summary.get('pending_items') %} · 待修 {{ run.summary.pending_items }} 项{% endif %} <small>{{ run.created_at }}</small></p>{% else %}<p>等待首次归档。</p>{% endfor %}
 </section><section class="panel"><h3>归档报文</h3><form id="save-run" data-sample="{{ label }}">
 <label for="csv">自填 CSV</label><textarea id="csv" rows="7" placeholder="留空使用当前样例"></textarea><button>复算并归档</button>
-</form></section></div>
+</form>{% if label %}<p><small>随附 {{ stages.repairs.item_count if stages.repairs is defined else 0 }} 项维修记录；重复提交相同输入取回同一批次。</small></p>{% endif %}</section></div>
+{% if snapshot %}
+{% set closeout = snapshot.stages.repairs %}
+<section class="panel">
+  <h3>批次 <code>{{ snapshot.manifest.run_id[:16] }}</code> 历次裁定</h3>
+  <p class="claim-sum">规则版本 <code>{{ snapshot.manifest.revision }}</code> · 可销 <b>{{ closeout.closed_mm }}</b> mm · 待修 {{ closeout.pending_mm }} mm</p>
+  <div class="scroll"><table><thead><tr><th>维修项</th><th>链号</th><th>销到 mm</th><th>可销 mm</th><th>待修 mm</th><th>状态</th><th>待修原因</th></tr></thead><tbody>
+  {% for item in adjudication.adjudications %}<tr>
+    <td><code>{{ item.repair_id }}</code></td><td>{{ item.chain }}</td><td>{{ item.closed_to_mm }}</td>
+    <td>{{ item.closed_mm }}</td><td>{{ item.pending_mm }}</td>
+    <td>{{ '已销' if item.status == 'CLOSED' else '部分销项' if item.status == 'PARTIAL' else '待修' }}</td>
+    <td>{% if item.blocker_labels %}{{ item.blocker_labels|join('、') }}{% else %}—{% endif %}</td>
+  </tr>{% else %}<tr><td colspan="7">本批没有维修项裁定。</td></tr>{% endfor %}
+  </tbody></table></div>
+  <p><a href="{{ url_for('track_web.screen',section='issue',run=snapshot.manifest.run_id,sample=label) }}">前往签发证据单 →</a></p>
+</section>
+{% endif %}

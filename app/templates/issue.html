@@ -1,4 +1,4 @@
 <div class="work-grid"><section class="panel"><h3>巡检证据单</h3>
 {% if ledger %}<form id="issue-run"><label for="run">归档批次</label><select id="run">{% for item in ledger %}<option value="{{ item.run_id }}" {{ 'selected' if item.run_id == run_id }}>{{ item.run_id[:16] }} · {{ item.summary.mapped_mm }} mm</option>{% endfor %}</select><button>签发证据</button></form>
 <a id="download" hidden>下载签发证据</a><output id="seal"></output>{% else %}<p>请先完成一笔批次归档。</p>{% endif %}
-</section><section class="panel"><h3>随件证据</h3><ul><li>报文原件和隔离行</li><li>双基点、断链与掉线记录</li><li>轨段覆盖与缺陷群清单</li></ul></section></div>
+</section><section class="panel"><h3>随件证据</h3><ul><li>报文原件和隔离行</li><li>双基点、断链与掉线记录</li><li>轨段覆盖与缺陷群清单</li><li>维修项销项裁定与待修原因</li></ul></section></div>

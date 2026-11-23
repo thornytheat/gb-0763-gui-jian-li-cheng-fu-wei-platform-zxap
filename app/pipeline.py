@@ -4,11 +4,12 @@ from app.capture.scan import scan
 from app.chainage.interpolate import restore
 from app.coverage.balance import balance
 from app.defects.cluster import consolidate
+from app.repairs.closeout import settle
 
-STAGES = ('capture', 'anchors', 'chainage', 'defects', 'coverage')
+STAGES = ('capture', 'anchors', 'chainage', 'defects', 'coverage', 'repairs')
 
 
-def inspect(raw, until='coverage', *, survey=None):
+def inspect(raw, until='coverage', *, survey=None, repairs=None):
     captured = scan(raw)
     results = {'capture': captured}
     if until == 'capture':
@@ -22,7 +23,13 @@ def inspect(raw, until='coverage', *, survey=None):
     results['chainage'] = located
     if until == 'chainage':
         return results
-    if until != 'coverage':
-        return dict(results, defects=consolidate(located['projected']))
-    return dict(results, defects=consolidate(located['projected']),
-                coverage=balance(plan, located['segments'], located['gaps']))
+    defects = consolidate(located['projected'])
+    if until == 'defects':
+        return dict(results, defects=defects)
+    coverage = balance(plan, located['segments'], located['gaps'])
+    results.update(defects=defects, coverage=coverage)
+    # 销项只认维修后覆盖与归并后的报缺，故在覆盖与缺陷都算完之后再裁定。
+    if until == 'coverage' and repairs is None:
+        return results
+    results['repairs'] = settle(repairs, located['segments'], defects['clusters'])
+    return results

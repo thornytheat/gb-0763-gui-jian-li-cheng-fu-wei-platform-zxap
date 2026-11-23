@@ -27,7 +27,7 @@
     </div>
     <h2>{{ nav[section] }}</h2>
     {% include section ~ '.html' %}
-    <footer><span><i></i> 里程单位 mm · 时标 UTC</span><span id="operation" role="status">{{ '夜巡原始报文' if label == 'dirty' else '标定对照报文' }}已载入</span></footer>
+    <footer><span><i></i> 里程单位 mm · 时标 UTC</span><span id="operation" role="status">{{ labels.get(label, label) }}已载入</span></footer>
   </main>
 </body>
 </html>

@@ -1,0 +1,23 @@
+{% set data=stages.repairs %}
+<div class="work-grid">
+  <section class="panel">
+    <h3>维修项销项 · {{ data.item_count }} 项</h3>
+    <div class="scroll"><table><thead><tr><th>维修项</th><th>链号</th><th>范围 mm</th><th>销到 mm</th><th>可销 mm</th><th>待修 mm</th><th>状态</th><th>报缺待修</th></tr></thead><tbody>
+    {% for row in data.verdicts %}<tr>
+      <td><code>{{ row.repair_id }}</code> {{ row.title }}</td><td>{{ row.chain }}</td>
+      <td>{{ row.start_mm }}–{{ row.end_mm }}</td><td>{{ row.closed_to_mm }}</td>
+      <td><b>{{ row.closed_mm }}</b></td><td>{{ row.pending_mm }}</td>
+      <td>{{ '已销' if row.status == 'CLOSED' else '部分销项' if row.status == 'PARTIAL' else '待修' }}</td>
+      <td>{% if row.blockers %}{{ row.blockers|join('、') }}{% else %}—{% endif %}</td>
+    </tr>{% else %}<tr><td colspan="8">没有登记的维修项。</td></tr>{% endfor %}
+    </tbody></table></div>
+    <div class="equation">{{ data.closed_mm }} 可销 + {{ data.pending_mm }} 待修 mm <small>只认维修后覆盖，复巡报缺处恢复待修</small></div>
+  </section>
+  <aside class="panel"><h3>逐项待修原因</h3>
+    {% for row in data.verdicts %}{% if row.pending_parts %}
+    <details {% if loop.first %}open{% endif %}><summary>{{ row.repair_id }} · {{ row.chain }} · {{ row.title }}</summary>
+      {% for part in row.pending_parts %}<p>{{ part.start_mm }} → {{ part.end_mm }} mm · {{ part.label }}{% if part.sources %} · 行 {{ part.sources|join('、') }}{% endif %}</p>{% endfor %}
+    </details>{% endif %}{% else %}<p>全部维修项已销项。</p>{% endfor %}
+    <p>维修前覆盖不能销项；迟到记录在已销位置重新报缺时，该段恢复待修。</p>
+  </aside>
+</div>

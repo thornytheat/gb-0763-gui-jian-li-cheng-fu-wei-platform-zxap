@@ -1,0 +1,13 @@
+{
+  "dirty": [
+    {"repair_id": "WR-101", "chain": "UP-A", "start_mm": 1000000, "end_mm": 1100000, "repaired_at": "2026-11-22T00:00:00Z", "title": "轨面擦伤打磨"},
+    {"repair_id": "WR-102", "chain": "UP-B", "start_mm": 2000000, "end_mm": 2400000, "repaired_at": "2026-11-22T00:05:00Z", "title": "成段换轨"},
+    {"repair_id": "WR-103", "chain": "DN-A", "start_mm": 400000, "end_mm": 500000, "repaired_at": "2026-11-22T02:00:00Z", "title": "补砟捣固"},
+    {"repair_id": "WR-104", "chain": "UP-A", "start_mm": 1030000, "end_mm": 1040000, "repaired_at": "2026-11-22T00:00:00Z", "title": "扣件复紧"}
+  ],
+  "clean": [
+    {"repair_id": "WR-201", "chain": "UP-A", "start_mm": 1000000, "end_mm": 1100000, "repaired_at": "2026-11-22T00:00:00Z", "title": "轨面擦伤打磨"},
+    {"repair_id": "WR-202", "chain": "UP-B", "start_mm": 2000000, "end_mm": 2400000, "repaired_at": "2026-11-22T00:00:00Z", "title": "成段换轨"},
+    {"repair_id": "WR-203", "chain": "DN-A", "start_mm": 400000, "end_mm": 500000, "repaired_at": "2026-11-22T00:00:00Z", "title": "补砟捣固"}
+  ]
+}
