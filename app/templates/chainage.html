@@ -1,0 +1,5 @@
+{% set data=stages.chainage %}
+<div class="work-grid"><section class="panel"><h3>双基点复位 · {{ data.projected_count }} 条</h3><div class="scroll"><table><thead><tr><th>报文</th><th>断链分支</th><th>上下游基点</th><th>复位 mm</th><th>证据行</th></tr></thead><tbody>
+{% for p in data.projected %}<tr><td>{{ p.event_id }}</td><td>{{ p.chain }}</td><td>{{ p.marks|join(' → ') }}</td><td>{{ p.station_mm }}</td><td>{{ p.line }} / {{ p.anchor_lines|join('、') }}</td></tr>{% endfor %}
+</tbody></table></div></section><section class="panel"><h3>无法复位 · {{ data.unmapped_count }} 条</h3>
+{% for p in data.unmapped %}<details><summary>{{ p.event_id }} · {{ p.label }}</summary><p>{{ p.reason }} · 行 {{ p.sources|join('、') }}</p></details>{% endfor %}</section></div>

@@ -1,0 +1,6 @@
+{% set data=stages.capture %}
+<div class="work-grid"><section class="panel"><h3>采信序列 · {{ data.sections }} 个分段</h3>
+<div class="scroll"><table><thead><tr><th>报文</th><th>车次</th><th>UTC</th><th>测距 mm</th><th>迟到 s</th><th>行</th></tr></thead><tbody>
+{% for e in data.events %}<tr><td>{{ e.event_id }}</td><td>{{ e.run }}</td><td>{{ e.at }}</td><td>{{ e.odo_mm }}</td><td>{{ e.late_s }}</td><td>{{ e.line }}</td></tr>{% endfor %}
+</tbody></table></div></section>
+<section class="panel"><h3>隔离报文</h3>{% for e in data.rejects %}<details><summary>行 {{ e.line }} · {{ e.label }}</summary><code>{{ e.reason }} · {{ e.raw }}</code></details>{% else %}<p>没有隔离报文。</p>{% endfor %}</section></div>

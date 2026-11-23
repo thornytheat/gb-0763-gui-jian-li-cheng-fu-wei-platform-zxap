@@ -1,0 +1,24 @@
+{% set data=stages.coverage %}
+<div class="work-grid">
+  <section class="panel rail-panel">
+    <h3>校准基点刻度</h3>
+    <div class="legend"><span>已映射</span><span>缺证</span></div>
+    {% for row in data.tracks %}
+    <div class="rail"><div><strong>{{ row.chain }}</strong><span>{{ row.mapped_mm }} / {{ row.planned_mm }} mm</span></div>
+      <div class="track" aria-label="{{ row.chain }} 覆盖轨">
+      {% for lo, hi in row.mapped_parts %}
+      <div class="mapped" style="--left:{{ 100 * (lo-row.start_mm)/row.planned_mm }}%;--span:{{ 100 * (hi-lo)/row.planned_mm }}%" title="{{ lo }}–{{ hi }} mm"></div>
+      {% endfor %}
+      </div><div class="ticks"><span>{{ row.start_mm }}</span><span>{{ row.end_mm }}</span></div>
+    </div>
+    {% endfor %}
+    <div class="equation">{{ data.planned_mm }} = {{ data.mapped_mm }} + {{ data.missing_mm }} mm <small>计划 = 已映射 + 缺证</small></div>
+  </section>
+  <section class="panel"><h3>掉线缺口</h3>
+    {% for item in data.missing_parts %}
+    <details open><summary>{{ item.chain }} · {{ item.end_mm - item.start_mm }} mm</summary>
+    <p>{{ item.start_mm }} → {{ item.end_mm }}</p><p>{{ item.reasons|join('、') }} · 行 {{ item.sources|join('、') or '—' }}</p></details>
+    {% else %}<p>计划轨段已全覆盖。</p>{% endfor %}
+    <p>重复覆盖 <b>{{ data.overlap_mm }} mm</b></p>
+  </section>
+</div>

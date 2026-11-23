@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ nav[section] }} · 轨检里程复位台</title>
+  <link rel="stylesheet" href="/static/station.css"><link rel="stylesheet" href="/static/rail.css">
+  <script src="/static/archive.js" type="module"></script>
+</head>
+<body>
+  <aside class="dispatch">
+    <a class="mark" href="/">轨检<br>复位</a>
+    <nav aria-label="工序">
+      {% for key, name in nav.items() %}<a {% if key == section %}aria-current="page"{% endif %} href="{{ url_for('track_web.screen', section=key, sample=label) }}">{{ name }}</a>{% endfor %}
+    </nav>
+    <span class="dispatch-foot">规则 {{ rev }}</span>
+  </aside>
+  <main>
+    <header class="toolbar">
+      <div><p class="overline">工务 · 车载测距</p><h1>轨检里程复位台</h1></div>
+      <form method="get" class="source-form"><label for="source">报文来源</label>
+        <select name="sample" id="source"><option value="dirty" {{ 'selected' if label == 'dirty' }}>夜巡原始报文</option><option value="clean" {{ 'selected' if label == 'clean' }}>标定对照报文</option></select><button>切换</button>
+      </form>
+    </header>
+    <div class="kpis">
+      <div><b>{{ stages.capture.input_rows }}</b><span>输入报文</span></div><div><b>{{ stages.capture.accepted }}</b><span>采信报文</span></div>
+      <div><b>{{ stages.capture.isolated }}</b><span>隔离报文</span></div><div><b>{{ stages.capture.duplicates }}</b><span>重复报文</span></div>
+    </div>
+    <h2>{{ nav[section] }}</h2>
+    {% include section ~ '.html' %}
+    <footer><span><i></i> 里程单位 mm · 时标 UTC</span><span id="operation" role="status">{{ '夜巡原始报文' if label == 'dirty' else '标定对照报文' }}已载入</span></footer>
+  </main>
+</body>
+</html>

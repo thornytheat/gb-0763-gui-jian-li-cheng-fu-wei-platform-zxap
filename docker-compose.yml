@@ -1,0 +1,12 @@
+name: road-sensor
+services:
+  app:
+    build: .
+    ports:
+      - "18462:18462"
+    environment:
+      TRACK_DB: var/track.sqlite
+    volumes:
+      - archive:/service/var
+volumes:
+  archive:

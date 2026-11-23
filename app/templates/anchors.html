@@ -1,0 +1,5 @@
+{% set data=stages.anchors %}
+<div class="work-grid"><section class="panel"><h3>采纳基点 · {{ data.matched }} 个</h3><div class="scroll"><table><thead><tr><th>车次</th><th>基点</th><th>链号</th><th>标称 mm</th><th>等级</th><th>行</th></tr></thead><tbody>
+{% for a in data.anchors %}<tr><td>{{ a.run }}</td><td>{{ a.ref }}</td><td>{{ a.chain }}</td><td>{{ a.station_mm }}</td><td>{{ a.grade }}</td><td>{{ a.line }}</td></tr>{% endfor %}
+</tbody></table></div></section><section class="panel"><h3>基点取舍</h3>
+{% for a in data.discarded %}<p>{{ a.label }}<br><code>{{ a.reason }} · 行 {{ a.sources|join('、') }}</code></p>{% else %}<p>本组基点无冲突。</p>{% endfor %}</section></div>

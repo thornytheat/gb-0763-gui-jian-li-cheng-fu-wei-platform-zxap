@@ -1,0 +1,5 @@
+<div class="work-grid"><section class="panel"><h3>批次快照</h3>
+{% for run in ledger %}<p><a href="{{ url_for('track_web.screen',section='issue',run=run.run_id,sample=label) }}"><code>{{ run.run_id[:16] }}</code></a> · {{ run.summary.mapped_mm }} mm <small>{{ run.created_at }}</small></p>{% else %}<p>等待首次归档。</p>{% endfor %}
+</section><section class="panel"><h3>归档报文</h3><form id="save-run" data-sample="{{ label }}">
+<label for="csv">自填 CSV</label><textarea id="csv" rows="7" placeholder="留空使用当前样例"></textarea><button>复算并归档</button>
+</form></section></div>

@@ -1,0 +1,4 @@
+{% set data=stages.defects %}
+<div class="work-grid"><section class="panel"><h3>缺陷群 · {{ data.clusters_count }} 处</h3><div class="scroll"><table><thead><tr><th>链号</th><th>类型</th><th>起点 mm</th><th>终点 mm</th><th>报文</th><th>证据行</th></tr></thead><tbody>
+{% for row in data.clusters %}<tr><td>{{ row.chain }}</td><td>{{ row.kind }}</td><td>{{ row.start_mm }}</td><td>{{ row.end_mm }}</td><td>{{ row.members|join('、') }}</td><td>{{ row.sources|join('、') }}</td></tr>{% endfor %}
+</tbody></table></div></section><aside class="panel"><h3>归并检点</h3><p>复位原件 <b>{{ data.observations }}</b> 条</p><p>归并减量 <b>{{ data.merged }}</b> 条</p></aside></div>

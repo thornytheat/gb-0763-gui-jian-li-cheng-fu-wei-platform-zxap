@@ -1,0 +1,17 @@
+{
+  "marks": [
+    {"ref":"A0","chain":"UP-A","station_mm":1000000},
+    {"ref":"A1","chain":"UP-A","station_mm":1100000},
+    {"ref":"B0","chain":"UP-B","station_mm":2000000},
+    {"ref":"B1","chain":"UP-B","station_mm":2100000},
+    {"ref":"B2","chain":"UP-B","station_mm":2300000},
+    {"ref":"B3","chain":"UP-B","station_mm":2400000},
+    {"ref":"D0","chain":"DN-A","station_mm":500000},
+    {"ref":"D1","chain":"DN-A","station_mm":400000}
+  ],
+  "plan": [
+    {"chain":"UP-A","start_mm":1000000,"end_mm":1100000},
+    {"chain":"UP-B","start_mm":2000000,"end_mm":2400000},
+    {"chain":"DN-A","start_mm":400000,"end_mm":500000}
+  ]
+}
